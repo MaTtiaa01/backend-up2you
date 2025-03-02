@@ -3,6 +3,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ApiKeyMiddleware
 {
@@ -10,10 +11,11 @@ class ApiKeyMiddleware
     {
         $apiKey = $request->header('API_KEY');
 
-        if ($apiKey !== env('API_KEY')) {
+        if ($apiKey !== config('app.api_key')) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
+        Log::info('API key is valid');
         return $next($request);
     }
 }

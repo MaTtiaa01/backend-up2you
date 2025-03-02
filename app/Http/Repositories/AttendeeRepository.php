@@ -2,7 +2,9 @@
 
 namespace App\Http\Repositories;
 
+use App\Mail\AttendeeRegistered;
 use App\Models\Attendee;
+use Illuminate\Support\Facades\Mail;
 
 class AttendeeRepository
 {
@@ -66,9 +68,10 @@ class AttendeeRepository
         }
 
         $event->attendees()->attach($attendee->id);
-        return response()->json(['message' => 'Attendee registered successfully'], 204);
 
+        Mail::to($attendeeEmail)->send(new AttendeeRegistered($event));
 
-        // TODO send email to attendee
+       return response()->json(null, 204);
+
     }
 }
