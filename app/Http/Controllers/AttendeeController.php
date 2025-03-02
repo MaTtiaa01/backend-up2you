@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Repositories\AttendeeRepository;
 use App\Http\Requests\AttendeeRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\RegistrationRequest;
 
 class AttendeeController extends Controller
 {
@@ -43,10 +43,9 @@ class AttendeeController extends Controller
         return $this->attendeeRepository->destroy($id);
     }
 
-    // TODO handle request validation
-    public function register(Request $request)
+    public function register(RegistrationRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
         return $this->attendeeRepository->register($data);
     }
 }

@@ -66,7 +66,7 @@ class AttendeeRepository
         }
 
         $event->attendees()->attach($attendee->id);
-        return response()->json(['message' => 'Attendee registered successfully'], 201);
+        return response()->json(['message' => 'Attendee registered successfully'], 204);
 
 
         // TODO send email to attendee
