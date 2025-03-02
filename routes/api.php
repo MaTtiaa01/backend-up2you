@@ -1,5 +1,7 @@
 <?php
 // filepath: /Users/mattiabarbieri/Documents/backend-up2you/routes/api.php
+
+use App\Http\Controllers\AttendeeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use Illuminate\Http\Request;
