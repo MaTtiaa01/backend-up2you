@@ -6,6 +6,13 @@ use App\Models\Attendee;
 
 class AttendeeRepository
 {
+    protected $eventRepository;
+
+    public function __construct(EventRepository $eventRepository)
+    {
+        $this->eventRepository = $eventRepository;
+    }
+
     public function index()
     {
         return Attendee::all();
@@ -32,5 +39,36 @@ class AttendeeRepository
     public function destroy($id)
     {
         return Attendee::destroy($id);
+    }
+
+    public function register($data)
+    {
+        $eventID = $data['event_id'];
+        $attendeeEmail = $data['email'];
+        $event = $this->eventRepository->show($eventID);
+
+         // Check if the maximum number of attendees has been reached
+         if ($event->attendees()->count() >= $event->max_attendees) {
+            return response()->json(['message' => 'Maximum number of attendees reached'], 400);
+        }
+
+        // Check if the attendee has already registered for the event
+        $attendee = Attendee::where('email', $attendeeEmail)->first();
+        if ($attendee && $event->attendees()->where('attendee_id', $attendee->id)->exists()) {
+            return response()->json(['message' => 'Attendee already registered for this event'], 400);
+        }
+
+        // Register the attendee
+        if (!$attendee) {
+            $attendee = new Attendee();
+            $attendee->email = $attendeeEmail;
+            $attendee->save();
+        }
+
+        $event->attendees()->attach($attendee->id);
+        return response()->json(['message' => 'Attendee registered successfully'], 201);
+
+
+        // TODO send email to attendee
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repositories\EventRepository;
-use Illuminate\Http\Request;
+use App\Http\Requests\EventRequest;
 
 class EventController extends Controller
 {
@@ -20,10 +20,10 @@ class EventController extends Controller
         return $this->eventRepository->index();
     }
 
-    // TODO handle request verification
-    public function store(Request $request)
+    public function store(EventRequest $request)
     {
-        return $this->eventRepository->store($request);
+        $data = $request->validated();
+        return $this->eventRepository->store($data);
     }
 
     public function show($id)
@@ -31,13 +31,15 @@ class EventController extends Controller
         return $this->eventRepository->show($id);
     }
 
-    public function update(Request $request, $id)
+    public function update(EventRequest $request, $id)
     {
-        return $this->eventRepository->update($request, $id);
+        $data = $request->validated();
+        return $this->eventRepository->update($data, $id);
     }
 
     public function destroy($id)
     {
         return $this->eventRepository->destroy($id);
     }
+
 }

@@ -34,4 +34,5 @@ class EventRepository
     {
        return Event::destroy($id);
     }
+
 }

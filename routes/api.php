@@ -21,6 +21,7 @@ Route::middleware(function (Request $request, $next) {
         Route::get('/{id}', [EventController::class, 'show']);
         Route::put('/{id}', [EventController::class, 'update']);
         Route::delete('/{id}', [EventController::class, 'destroy']);
+        Route::post('/new',[EventController::class, 'store']);
     });
 
     Route::prefix('attendees')->group(function () {
@@ -29,6 +30,8 @@ Route::middleware(function (Request $request, $next) {
         Route::get('/{id}', [AttendeeController::class, 'show']);
         Route::put('/{id}', [AttendeeController::class, 'update']);
         Route::delete('/{id}', [AttendeeController::class, 'destroy']);
+        Route::post('/register',[AttendeeController::class, 'register']);
     });
+
 });
 

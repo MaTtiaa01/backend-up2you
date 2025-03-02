@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repositories\AttendeeRepository;
+use App\Http\Requests\AttendeeRequest;
 use Illuminate\Http\Request;
 
 class AttendeeController extends Controller
@@ -20,10 +21,10 @@ class AttendeeController extends Controller
         return $this->attendeeRepository->index();
     }
 
-    // TODO handle request verification
-    public function store(Request $request)
+    public function store(AttendeeRequest $request)
     {
-        return $this->attendeeRepository->store($request);
+        $data = $request->validated();
+        return $this->attendeeRepository->store($data);
     }
 
     public function show($id)
@@ -31,13 +32,21 @@ class AttendeeController extends Controller
         return $this->attendeeRepository->show($id);
     }
 
-    public function update(Request $request, $id)
+    public function update(AttendeeRequest $request, $id)
     {
-        return $this->attendeeRepository->update($request, $id);
+        $data = $request->validated();
+        return $this->attendeeRepository->update($data, $id);
     }
 
     public function destroy($id)
     {
         return $this->attendeeRepository->destroy($id);
+    }
+
+    // TODO handle request validation
+    public function register(Request $request)
+    {
+        $data = $request->all();
+        return $this->attendeeRepository->register($data);
     }
 }
